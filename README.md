@@ -22,9 +22,12 @@ This lab focuses on automating the results upload process in GitLab, enabling se
 <h2>Program walk-through:</h2>
 
 To work with git repositories, we first need to set up a username and email. We can use git config commands to set it up: <br/>
-- git config --global user.email "student@pdevsecops.com"<br/>
-- git config --global user.name "student"<br/>
- 
+```
+git config --global user.email "student@pdevsecops.com"
+```
+```
+git config --global user.name "student"
+``` 
 <p align="center">
 <img src="https://i.imgur.com/il0mquz.png" height="80%" width="80%" alt="Disk Sanitization Step"/>
 </p>
@@ -33,8 +36,9 @@ To work with git repositories, we first need to set up a username and email. We 
 <br />
 
 We can use the git clone command to download the django.nv git repository to our local machine: <br/>
-- git clone git@gitlab-ce-rcgsg0ei:root/django-nv.git<br/>
- 
+```
+git clone git@gitlab-ce-rcgsg0ei:root/django-nv.git
+``` 
 <p align="center">
 <img src="https://i.imgur.com/s5UNaJj.png" height="80%" width="80%" alt="Disk Sanitization Step"/>
 </p>
@@ -43,8 +47,9 @@ We can use the git clone command to download the django.nv git repository to our
 <br />
 
 Lets cd into this repository to explore its content: <br/>
-- cd django-nv<br/>
- 
+```
+cd django-nv
+``` 
 <p align="center">
 <img src="https://i.imgur.com/4tBPGYd.png" height="80%" width="80%" alt="Disk Sanitization Step"/>
 </p>
@@ -53,8 +58,9 @@ Lets cd into this repository to explore its content: <br/>
 <br />
 
 First, lets download the upload-results.py script using the following curl command: <br/>
-- curl https://gitlab.practical-devsecops.training/-/snippets/3/raw -o upload-results.py<br/>
- 
+```
+curl https://gitlab.practical-devsecops.training/-/snippets/3/raw -o upload-results.py
+``` 
 <p align="center">
 <img src="https://i.imgur.com/1d2aQuL.png" height="80%" width="80%" alt="Disk Sanitization Step"/>
 </p>
@@ -63,9 +69,10 @@ First, lets download the upload-results.py script using the following curl comma
 <br />
 
 Add the file and push it to the django.nv repository: <br/>
--  git add upload-results.py<br/>
-- git commit -m "Add upload-results.py file"<br/>
- 
+```
+git add upload-results.py
+git commit -m "Add upload-results.py file"
+``` 
 <p align="center">
 <img src="https://i.imgur.com/BKb6R9G.png" height="80%" width="80%" alt="Disk Sanitization Step"/>
 </p>
@@ -74,8 +81,9 @@ Add the file and push it to the django.nv repository: <br/>
 <br />
 
 We have internet connectivity, lets push it to the remote git repository using the git push command: <br/>
--  git push origin main<br/>
- 
+```
+git push origin main
+``` 
 <p align="center">
 <img src="https://i.imgur.com/PokEBAv.png" height="80%" width="80%" alt="Disk Sanitization Step"/>
 </p>
@@ -84,8 +92,9 @@ We have internet connectivity, lets push it to the remote git repository using t
 <br />
 
 Use the terminal provided on the right to scan the production machine https://prod-rcgsg0ei.lab.practical-devsecops.training in DevSecOps Box with the help of the ZAP docker image owasp/zap2docker-stable:2.10.0 and save the result at /django-nv/zap-output.xml: <br/>
--  docker run --user $(id -u):$(id -g) -w /zap -v $(pwd):/zap/wrk:rw --rm owasp/zap2docker-stable:2.10.0 zap-baseline.py -t https://prod-rcgsg0ei.lab.practical-devsecops.training -d -x zap-output.xml<br/>
- 
+```
+docker run --user $(id -u):$(id -g) -w /zap -v $(pwd):/zap/wrk:rw --rm owasp/zap2docker-stable:2.10.0 zap-baseline.py -t https://prod-rcgsg0ei.lab.practical-devsecops.training -d -x zap-output.xml
+``` 
 <p align="center">
 <img src="https://i.imgur.com/NbIbd5N.png" height="80%" width="80%" alt="Disk Sanitization Step"/>
 </p>
@@ -94,9 +103,10 @@ Use the terminal provided on the right to scan the production machine https://pr
 <br />
 
 After you store the ZAP scan results, please upload the result manually to Defect Dojo using the terminal on the right: <br/>
--  export API_KEY=$(curl -s -XPOST -H 'content-type: application/json' https://dojo-rcgsg0ei.lab.practical-devsecops.training/api/v2/api-token-auth/ -d '{"username": "root", "password": "pdso-training"}' | jq -r '.token' )<br/>
-- python3 upload-results.py --host dojo-rcgsg0ei.lab.practical-devsecops.training --api_key $API_KEY --engagement_id 1 --product_id 1 --lead_id 1 --environment "Production" --result_file zap-output.xml --scanner "ZAP Scan"<br/>
- 
+```
+export API_KEY=$(curl -s -XPOST -H 'content-type: application/json' https://dojo-rcgsg0ei.lab.practical-devsecops.training/api/v2/api-token-auth/ -d '{"username": "root", "password": "pdso-training"}' | jq -r '.token' )<br/>
+python3 upload-results.py --host dojo-rcgsg0ei.lab.practical-devsecops.training --api_key $API_KEY --engagement_id 1 --product_id 1 --lead_id 1 --environment "Production" --result_file zap-output.xml --scanner "ZAP Scan"<br/>
+``` 
 <p align="center">
 <img src="https://i.imgur.com/ijwpg06.png" height="80%" width="80%" alt="Disk Sanitization Step"/>
 </p>
